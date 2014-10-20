@@ -1,0 +1,45 @@
+---
+title: "PA1_template.Rmd"
+author: "Stephen W. Jones"
+date: "Wednesday, October 08, 2014"
+output: html_document
+---
+
+library(plyr)
+
+Reading the Activity file.  It is in a CSV format, has a header, and is comma seperated.
+```{r, echo=TRUE}
+fitnessData = read.table("activity.csv", sep=",", header = TRUE)
+```
+
+Histogram on the total number of steps taken each day
+```{r, echo=TRUE}
+stepSums <- tapply(fitnessData$steps, fitnessData$date, sum, na.rm = TRUE)
+with (fitnessData, hist(stepSums, main = "Histogram of Steps per Day",
+        ylab = "Frequency", xlab = "Number of Steps", breaks = 10))
+```
+
+Calculate the Mean and Median of steps per day.
+```{r, echo=TRUE}
+mean(stepSums)
+median(stepSums)
+```
+
+Average daily activity pattern
+
+```{r, echo=TRUE}
+fiveMinAvg <- tapply(fitnessData$step, fitnessData$interval, mean, na.rm = TRUE)
+with (fitnessData, plot(interval[1:288], fiveMinAvg, type = "l",
+      main = "Average Steps by across Days", ylab = "Average Steps",
+      xlab = "5 Minute Intervals"))
+maxSteps <- max(fiveMinAvg)
+maxInterval <- fitnessData[fitnessData$steps==maxSteps,1]
+bigStep <- strftime(bigStep,"Y%-m%-d% %H:%M")
+```
+
+
+
+
+
+
+
